@@ -1,6 +1,18 @@
 ﻿<template>
   <main>
     <section class="hero-section">
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="https://images.pexels.com/photos/8972498/pexels-photo-8972498.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1200&dpr=1"
+        aria-hidden="true"
+      >
+        <source src="https://www.pexels.com/download/video/8795484/" type="video/mp4" />
+      </video>
       <div class="hero-overlay"></div>
       <div class="shell hero-content">
         <h1 class="hero-title">
@@ -15,21 +27,6 @@
         <div class="hero-actions">
           <a class="btn btn-light" href="#/planner">Plan My Walk</a>
           <a class="btn btn-outline-light" href="#/learn-more">Learn More</a>
-        </div>
-
-        <div class="hero-stats" aria-label="Key figures">
-          <article class="stat-card">
-            <p class="stat-value">57%</p>
-            <p class="stat-label">of older adults are not active enough</p>
-          </article>
-          <article class="stat-card">
-            <p class="stat-value">19%</p>
-            <p class="stat-label">lower heart disease risk with regular walking</p>
-          </article>
-          <article class="stat-card">
-            <p class="stat-value">15 min</p>
-            <p class="stat-label">comfortable walking range for nearby needs</p>
-          </article>
         </div>
       </div>
       <div class="hero-scroll-hint" aria-hidden="true">
@@ -107,39 +104,70 @@
       </div>
     </section>
 
+    <section class="section story-proof-section">
+      <div class="shell">
+        <div class="story-proof">
+          <h3>Barriers are real, but staying home should not be the answer.</h3>
+          <p>
+            With the right support, short walks can still feel safe, manageable, and worth it.
+          </p>
+
+          <div class="proof-grid" aria-label="Key evidence">
+            <article class="proof-item">
+              <span class="proof-tag">Activity</span>
+              <p class="proof-number" data-target="57" data-suffix="%">0%</p>
+              <p class="proof-copy">of older adults are not active enough</p>
+            </article>
+            <article class="proof-item">
+              <span class="proof-tag">Health</span>
+              <p class="proof-number" data-target="19" data-suffix="%">0%</p>
+              <p class="proof-copy">lower heart disease risk with regular walking</p>
+            </article>
+            <article class="proof-item">
+              <span class="proof-tag">Comfort range</span>
+              <p class="proof-number" data-target="15" data-suffix=" min">0 min</p>
+              <p class="proof-copy">a practical distance for nearby daily needs</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section purpose-section">
       <div class="shell">
         <div class="purpose-panel">
-          <div class="section-head">
-            <p class="eyebrow dark">Our Purpose</p>
-            <h2>Give every older adult a walk they can trust.</h2>
+          <div class="purpose-head">
+            <p class="approach-kicker">OUR APPROACH</p>
+            <h2>Building <span>Confidence</span> for Everyday Walks.</h2>
             <p>
-              We focus on what people care about most: comfort, clarity, and confidence from start to finish.
+              Small support before and during a walk can make the journey feel easier to begin and easier to trust.
             </p>
           </div>
 
-          <div class="purpose-points">
-            <article>
-              <div class="icon-box">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C9 4.6 8.5 8.8 10.2 11C11.5 9.7 12.9 8 15 6.4C14.2 4.7 13 2.8 12 2Z"/><path d="M12 22V11"/></svg>
-              </div>
-              <h3>Comfortable route suggestions</h3>
-              <p>Prefer routes with shade and easier walking conditions.</p>
-            </article>
-            <article>
-              <div class="icon-box">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11H19V16H5Z"/><path d="M7 11V8C7 6.3 8.3 5 10 5H14C15.7 5 17 6.3 17 8V11"/></svg>
-              </div>
-              <h3>Rest stops along the way</h3>
-              <p>Show nearby benches and toilets before people begin walking.</p>
-            </article>
-            <article>
-              <div class="icon-box">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 6V12C4 17.3 7.8 21.8 12 23C16.2 21.8 20 17.3 20 12V6Z"/><path d="M9 12L11.5 14.5L15.5 10.5"/></svg>
-              </div>
-              <h3>Clear support options</h3>
-              <p>Highlight nearby pharmacies and clinics if help is needed.</p>
-            </article>
+          <div class="purpose-body">
+            <figure class="purpose-image-wrap">
+              <img
+                class="purpose-image"
+                src="https://images.unsplash.com/photo-1750853736853-7eed0c15d4a0?auto=format&fit=crop&q=80&w=1600"
+                alt="Smiling older adult outdoors in natural daylight"
+                loading="lazy"
+              />
+            </figure>
+
+            <div class="purpose-list">
+              <article class="purpose-list-item">
+              <h3>A calmer start</h3>
+              <p>Feel more prepared before stepping outside.</p>
+              </article>
+              <article class="purpose-list-item">
+              <h3>Reassurance on the way</h3>
+              <p>Have a better sense of what may support you during the walk.</p>
+              </article>
+              <article class="purpose-list-item">
+              <h3>Confidence to go again</h3>
+              <p>When a walk feels easier, everyday outings can feel possible again.</p>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -147,41 +175,157 @@
 
     <section class="section steps-section">
       <div class="shell">
-        <div class="section-head">
-          <p class="eyebrow dark">How It Works</p>
-          <h2>From destination to confidence in 5 steps</h2>
-        </div>
+        <div class="steps-panel">
+          <div class="steps-head">
+            <p class="approach-kicker">HOW IT WORKS</p>
+            <h2>A little support before you step outside</h2>
+            <p>
+              Sometimes it is not the destination that feels difficult - it is knowing what the walk might be
+              like. GreenPath is here to help you feel more ready before you go.
+            </p>
+          </div>
 
-        <div class="steps-list">
-          <article class="step-item">
-            <span>Step 1</span>
-            <h3>Choose where you want to go</h3>
-            <p>Select a daily destination like a pharmacy, park, cafe, or library.</p>
-          </article>
-          <article class="step-item">
-            <span>Step 2</span>
-            <h3>Get the best route within 15 minutes</h3>
-            <p>GreenPath suggests a route that balances shade, slope, and nearby rest facilities.</p>
-          </article>
-          <article class="step-item">
-            <span>Step 3</span>
-            <h3>Follow a more reassuring street path</h3>
-            <p>Routes prioritize places with moderate activity so help is closer if needed.</p>
-          </article>
-          <article class="step-item">
-            <span>Step 4</span>
-            <h3>Start simple navigation</h3>
-            <p>Use turn-by-turn support and see rest points ahead before you arrive.</p>
-          </article>
-          <article class="step-item">
-            <span>Step 5</span>
-            <h3>Build confidence and enjoy healthy living</h3>
-            <p>Each safe, comfortable walk supports independence and wellbeing over time.</p>
-          </article>
-        </div>
+          <div class="steps-flow">
+            <article v-for="(step, index) in howItWorksSteps" :key="step.title" class="step-row">
+              <div class="step-visual">
+                <img :src="step.image" :alt="`Step ${index + 1} illustration`" loading="lazy" @error="onStepImageError" />
+              </div>
 
-        <a class="btn btn-primary" href="#/planner">Try the Route Planner</a>
+              <div class="step-content">
+                <p class="step-row-label">
+                  Step
+                  <span>{{ index + 1 }}</span>
+                </p>
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.body }}</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section try-planner-section">
+      <div class="try-planner-hero" role="region" aria-label="Try GreenPath route planner">
+        <div class="try-planner-overlay"></div>
+        <div class="try-planner-content">
+          <p class="try-planner-kicker">TRY GREENPATH TODAY</p>
+          <h2>Take a calm and confident walk today.</h2>
+          <p>
+            Open the route planner and preview a path that feels easier before you step outside.
+          </p>
+          <a class="btn btn-light try-planner-btn" href="#/planner">Open Route Planner</a>
+        </div>
       </div>
     </section>
   </main>
 </template>
+
+<script setup>
+import { onBeforeUnmount, onMounted } from 'vue'
+import stepPlaceholder from '../assets/step-placeholder.svg'
+import step1 from '../assets/svg/step1.svg'
+import step2 from '../assets/svg/step2.svg'
+import step3 from '../assets/svg/step3.svg'
+import step4 from '../assets/svg/step4.svg'
+import step5 from '../assets/svg/step5.svg'
+
+const howItWorksSteps = [
+  {
+    image: step1,
+    title: 'Think about where you need to go today',
+    body: 'It might be somewhere familiar, like the local grocery store, the pharmacy, the clinic, or a nearby cafe.'
+  },
+  {
+    image: step2,
+    title: 'Take a look at the walk ahead',
+    body: 'Before leaving home, you can see the route more clearly and get a better sense of whether it feels manageable today.'
+  },
+  {
+    image: step3,
+    title: 'See what may help along the way',
+    body: 'From places to pause to nearby support, GreenPath helps you feel a little more reassured about the journey.'
+  },
+  {
+    image: step4,
+    title: 'Go when it feels right for you',
+    body: 'Once the walk feels clearer and easier to trust, it can feel easier to begin.'
+  },
+  {
+    image: step5,
+    title: 'Let each walk build a little more confidence',
+    body: 'Over time, these everyday trips can feel less uncertain and more like a comfortable part of your routine.'
+  }
+]
+
+const onStepImageError = (event) => {
+  const img = event?.target
+  if (!img) return
+  img.onerror = null
+  img.src = stepPlaceholder
+}
+
+let proofObserver = null
+let frameIds = []
+
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+
+const animateNumber = (el, endValue, suffix, duration = 1300) => {
+  const start = performance.now()
+
+  const tick = (now) => {
+    const progress = Math.min((now - start) / duration, 1)
+    const eased = easeOutCubic(progress)
+    const current = Math.round(endValue * eased)
+    el.textContent = `${current}${suffix}`
+
+    if (progress < 1) {
+      const id = requestAnimationFrame(tick)
+      frameIds.push(id)
+    }
+  }
+
+  const id = requestAnimationFrame(tick)
+  frameIds.push(id)
+}
+
+onMounted(() => {
+  const proofSection = document.querySelector('.story-proof-section')
+  const numberEls = Array.from(document.querySelectorAll('.proof-number'))
+  let hasAnimated = false
+
+  numberEls.forEach((el) => {
+    const suffix = el.dataset.suffix || ''
+    el.textContent = `0${suffix}`
+  })
+
+  if (!proofSection || numberEls.length === 0) return
+
+  proofObserver = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.some((entry) => entry.isIntersecting)
+      if (!visible || hasAnimated) return
+
+      hasAnimated = true
+      numberEls.forEach((el) => {
+        const target = Number(el.dataset.target || '0')
+        const suffix = el.dataset.suffix || ''
+        animateNumber(el, target, suffix)
+      })
+
+      proofObserver?.disconnect()
+      proofObserver = null
+    },
+    { threshold: 0.42 }
+  )
+
+  proofObserver.observe(proofSection)
+})
+
+onBeforeUnmount(() => {
+  proofObserver?.disconnect()
+  proofObserver = null
+  frameIds.forEach((id) => cancelAnimationFrame(id))
+  frameIds = []
+})
+</script>
