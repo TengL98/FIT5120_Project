@@ -1,4 +1,4 @@
-﻿# Logs
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -88,12 +88,16 @@ dist
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
-# vuepress build output
+# vitepress build output
 .vuepress/dist
 
-# vuepress v2.x temp and cache directory
+# vitepress v2.x temp and cache directory
 .temp
 .cache
+
+# Vite build output and cache
+.vite/
+dist/
 
 # Sveltekit cache directory
 .svelte-kit/
@@ -145,16 +149,4 @@ __pycache__/
 *.pyd
 venv/
 
-# Document and media files
 *.pdf
-*.md
-*.png
-
-
-# Vite build cache
-.vite/
-dist/
-
-# Vite build cache
-.vite/
-dist/
