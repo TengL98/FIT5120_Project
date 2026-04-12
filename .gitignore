@@ -150,3 +150,11 @@ venv/
 *.md
 *.png
 
+
+# Vite build cache
+.vite/
+dist/
+
+# Vite build cache
+.vite/
+dist/
