@@ -149,6 +149,7 @@ h4 {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  position: relative;
 }
 
 .brand {
@@ -172,6 +173,9 @@ h4 {
   display: flex;
   align-items: center;
   gap: 0.2rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .main-nav a {

@@ -15,8 +15,6 @@
         <a :class="{ active: currentPath === '/why-walk' }" href="#/why-walk">Why Walk</a>
         <a :class="{ active: currentPath === '/planner' }" href="#/planner">Plan a Route</a>
       </nav>
-
-      <a class="header-cta" href="#/planner">Start</a>
     </div>
   </header>
 </template>

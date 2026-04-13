@@ -90,8 +90,6 @@
             </div>
           </article>
         </div>
-
-        <a class="btn btn-primary" href="#/why-walk">Learn More About These Barriers</a>
       </div>
     </section>
 
