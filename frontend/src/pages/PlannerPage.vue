@@ -434,8 +434,10 @@ const requestPlan = async () => {
           userLng: requestLng
         })
       })
-      if (payload?.destination || attempt === maxAttempts) break
-      await new Promise((resolve) => setTimeout(resolve, 350))
+      // retry if destination found but route is empty (e.g. ORS cold-start failure)
+      const routeReady = payload?.destination && (payload.route?.length ?? 0) > 1
+      if (routeReady || !payload?.destination || attempt === maxAttempts) break
+      await new Promise((resolve) => setTimeout(resolve, 800))
     }
 
     if (requestId !== activeRequestId) return
@@ -636,6 +638,8 @@ const openRouteView = async () => {
   await nextTick()
   ensureMap()
   drawRouteMap()
+  // double-rAF: wait for browser layout to complete before fixing size
+  requestAnimationFrame(() => requestAnimationFrame(() => map?.invalidateSize()))
 }
 
 watch(selectedType, async () => {
@@ -655,8 +659,15 @@ watch(selectedType, async () => {
 watch(
   () => isRouteView.value,
   (visible) => {
-    if (!visible || !map) return
-    requestAnimationFrame(() => map.invalidateSize())
+    if (!visible) {
+      // DOM element will be destroyed by v-else — must destroy map too
+      map?.remove()
+      map = null
+      userLayer = null
+      destinationLayer = null
+      facilitiesLayer = null
+      routeLayer = null
+    }
   }
 )
 

@@ -1,30 +1,24 @@
+import os
 import requests
 
-OSRM_BASE_URL = "https://router.project-osrm.org"
+ORS_API_KEY = os.environ.get("ORS_API_KEY", "")
+ORS_BASE_URL = "https://api.openrouteservice.org/v2/directions/foot-walking/geojson"
 
 
 def get_walking_route(start_lat, start_lng, end_lat, end_lng):
-    url = (
-        f"{OSRM_BASE_URL}/route/v1/walking/"
-        f"{start_lng},{start_lat};{end_lng},{end_lat}"
-    )
+    headers = {"Authorization": ORS_API_KEY, "Content-Type": "application/json"}
+    body = {"coordinates": [[start_lng, start_lat], [end_lng, end_lat]]}
 
-    params = {
-        "overview": "full",
-        "geometries": "geojson"
-    }
-
-    response = requests.get(url, params=params, timeout=20)
+    response = requests.post(ORS_BASE_URL, json=body, headers=headers, timeout=20)
     response.raise_for_status()
 
     data = response.json()
-    routes = data.get("routes", [])
+    features = data.get("features", [])
 
-    if not routes:
+    if not features:
         return None
 
-    geometry = routes[0].get("geometry", {})
-    coordinates = geometry.get("coordinates", [])
+    coordinates = features[0].get("geometry", {}).get("coordinates", [])
 
     if not coordinates:
         return None
