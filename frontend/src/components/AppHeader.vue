@@ -12,7 +12,7 @@
 
       <nav class="main-nav" aria-label="Primary">
         <a :class="{ active: currentPath === '/' }" href="#/">Home</a>
-        <a :class="{ active: currentPath === '/learn-more' }" href="#/learn-more">Learn More</a>
+        <a :class="{ active: currentPath === '/why-walk' }" href="#/why-walk">Why Walk</a>
         <a :class="{ active: currentPath === '/planner' }" href="#/planner">Plan a Route</a>
       </nav>
 

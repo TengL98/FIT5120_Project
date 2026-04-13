@@ -13,7 +13,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import HomePage from './pages/HomePage.vue'
-import LearnMorePage from './pages/LearnMorePage.vue'
+import WhyWalkPage from './pages/WhyWalkPage.vue'
 import PlannerPage from './pages/PlannerPage.vue'
 
 const getHashPath = () => {
@@ -26,7 +26,7 @@ const isSolidHeader = ref(false)
 
 const routes = {
   '/': HomePage,
-  '/learn-more': LearnMorePage,
+  '/why-walk': WhyWalkPage,
   '/planner': PlannerPage
 }
 

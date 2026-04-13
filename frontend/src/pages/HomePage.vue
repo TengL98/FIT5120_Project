@@ -1,16 +1,7 @@
 ﻿<template>
   <main>
     <section class="hero-section">
-      <video
-        class="hero-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster="https://images.pexels.com/photos/8972498/pexels-photo-8972498.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1200&dpr=1"
-        aria-hidden="true"
-      >
+      <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
         <source src="https://www.pexels.com/download/video/8795484/" type="video/mp4" />
       </video>
       <div class="hero-overlay"></div>
@@ -26,7 +17,7 @@
 
         <div class="hero-actions">
           <a class="btn btn-light" href="#/planner">Plan My Walk</a>
-          <a class="btn btn-outline-light" href="#/learn-more">Learn More</a>
+          <a class="btn btn-outline-light" href="#/why-walk">Learn the Benefit</a>
         </div>
       </div>
       <div class="hero-scroll-hint" aria-hidden="true">
@@ -100,7 +91,7 @@
           </article>
         </div>
 
-        <a class="btn btn-primary" href="#/learn-more">Learn More About These Barriers</a>
+        <a class="btn btn-primary" href="#/why-walk">Learn More About These Barriers</a>
       </div>
     </section>
 
