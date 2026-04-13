@@ -1846,6 +1846,7 @@ h4 {
   display: inline-flex;
   align-items: center;
   gap: 0.42rem;
+  line-height: 1;
   box-shadow: 0 2px 0 rgba(15, 74, 54, 0.14);
 }
 
@@ -1854,14 +1855,20 @@ h4 {
   font-size: 1.46rem;
   font-weight: 900;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(-0.5px);
 }
 
 .planner-metric-chip em {
-  color: #256d52;
+  color: #113f2f;
   font-style: normal;
   font-size: 1.46rem;
   font-weight: 800;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(-0.5px);
 }
 
 .planner-metric-chip small {
@@ -1869,6 +1876,9 @@ h4 {
   font-size: 1.18rem;
   font-weight: 800;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(-0.5px);
 }
 
 .planner-metric-row span img {
