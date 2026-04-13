@@ -1,5 +1,5 @@
 <template>
-  <main class="route-planner-page">
+  <main class="route-planner-page" :class="{ 'is-route-view': isRouteView }">
     <div class="planner-scene" aria-hidden="true"></div>
     <div class="planner-scene-overlay" aria-hidden="true"></div>
 
@@ -128,48 +128,110 @@
     </section>
 
     <section class="planner-route-shell" v-else>
-      <aside class="planner-route-panel">
-        <button class="planner-back-btn" @click="isRouteView = false">Back to search</button>
-        <h2>Walk to your local {{ selectedTypeLabel }}</h2>
+      <aside class="planner-route-panel rv-panel">
+        <button class="planner-back-btn rv-back-btn" @click="isRouteView = false">← Back to search</button>
 
-        <div class="planner-route-stats">
-          <div>
-            <strong>{{ walkMinutes }} min</strong>
-            <span>walk</span>
+        <div class="rv-dest-header">
+          <div class="rv-dest-icon-wrap">
+            <img :src="selectedTypeIconUrl" alt="" />
           </div>
-          <div>
-            <strong>{{ distanceText }}</strong>
-            <span>distance</span>
+          <div class="rv-dest-info">
+            <p class="rv-dest-type-label">{{ selectedTypeLabel }}</p>
+            <h2 class="rv-dest-name">{{ result.destination?.name }}</h2>
           </div>
         </div>
 
-        <h3>Facilities on your way</h3>
-        <ul class="planner-facility-list">
-          <li>
-            <strong>{{ facilityBreakdown.bench }} Benches</strong>
-            <span>Great for resting your legs</span>
-          </li>
-          <li>
-            <strong>{{ facilityBreakdown.drinking_fountain }} Drinking Fountains</strong>
-            <span>Stay hydrated along the walk</span>
-          </li>
-          <li>
-            <strong>{{ facilityBreakdown.toilet }} Public Toilets</strong>
-            <span>Accessible support nearby</span>
-          </li>
-        </ul>
+        <div class="rv-stats-row">
+          <div class="rv-stat-card">
+            <strong>{{ walkMinutes }}</strong>
+            <span>min walk</span>
+          </div>
+          <div class="rv-stat-card">
+            <strong>{{ distanceMetric.value }}</strong>
+            <span>{{ distanceMetric.unit }} away</span>
+          </div>
+        </div>
 
-        <p class="planner-route-note">Take your time. There are places to rest along the way.</p>
+        <div class="rv-section">
+          <h3>Along the way</h3>
+          <div class="rv-fac-grid">
+            <div class="rv-fac-card rv-fac-bench" v-if="facilityBreakdown.bench > 0">
+              <img :src="benchIcon" alt="" />
+              <div>
+                <strong>{{ facilityBreakdown.bench }}</strong>
+                <span>Benches</span>
+              </div>
+            </div>
+            <div class="rv-fac-card rv-fac-toilet" v-if="facilityBreakdown.toilet > 0">
+              <img :src="toiletIcon" alt="" />
+              <div>
+                <strong>{{ facilityBreakdown.toilet }}</strong>
+                <span>Toilets</span>
+              </div>
+            </div>
+            <div class="rv-fac-card rv-fac-fountain" v-if="facilityBreakdown.drinking_fountain > 0">
+              <img :src="fountainIcon" alt="" />
+              <div>
+                <strong>{{ facilityBreakdown.drinking_fountain }}</strong>
+                <span>Fountains</span>
+              </div>
+            </div>
+            <div
+              v-if="facilityBreakdown.bench === 0 && facilityBreakdown.toilet === 0 && facilityBreakdown.drinking_fountain === 0"
+              class="rv-no-facilities"
+            >
+              No rest stops available along this route
+            </div>
+          </div>
+        </div>
+
+        <div class="rv-section rv-legend-section">
+          <h3>Map legend</h3>
+          <div class="rv-legend-list">
+            <div class="rv-legend-row">
+              <div class="rv-legend-icon rv-licon-start">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="4" r="2.5"/><path d="M10 8.5c-1.1 0-2 .9-2 2v4h2v5h4v-5h2v-4c0-1.1-.9-2-2-2h-4z"/></svg>
+              </div>
+              You (start)
+            </div>
+            <div class="rv-legend-row">
+              <div class="rv-legend-icon rv-licon-dest">
+                <img :src="selectedTypeIconUrl" width="15" height="15" style="filter:invert(1)" />
+              </div>
+              Destination
+            </div>
+            <div class="rv-legend-row">
+              <div class="rv-legend-icon rv-licon-bench">
+                <img :src="benchIcon" width="15" height="15" style="filter:invert(1)" />
+              </div>
+              Bench
+            </div>
+            <div class="rv-legend-row">
+              <div class="rv-legend-icon rv-licon-toilet">
+                <img :src="toiletIcon" width="15" height="15" style="filter:invert(1)" />
+              </div>
+              Toilet
+            </div>
+            <div class="rv-legend-row">
+              <div class="rv-legend-icon rv-licon-fountain">
+                <img :src="fountainIcon" width="15" height="15" style="filter:invert(1)" />
+              </div>
+              Drinking Fountain
+            </div>
+            <div class="rv-legend-row">
+              <span class="rv-ldot rv-ldot-route"></span>
+              Walking route
+            </div>
+          </div>
+        </div>
+
       </aside>
 
       <section class="planner-route-map-area">
-        <div class="map-chip">High shade area</div>
-
         <div v-if="isLoadingPlan" class="planner-map-loading" role="status" aria-live="polite">
           <span class="planner-spinner" aria-hidden="true"></span>
           <p>Loading route map...</p>
         </div>
-
         <div ref="mapEl" class="planner-route-map"></div>
       </section>
     </section>
@@ -193,6 +255,7 @@ import cafeIcon from '../assets/svg/break-cafe.svg'
 import locationIcon from '../assets/svg/location-icon.svg'
 import benchIcon from '../assets/svg/bench-icon.svg'
 import toiletIcon from '../assets/svg/toilet-icon.svg'
+import fountainIcon from '../assets/svg/drinking-fountain-icon.svg'
 import slopeIcon from '../assets/svg/slope-icon.svg'
 import treesIcon from '../assets/svg/trees-icon.svg'
 import walkIcon from '../assets/svg/walk.svg'
@@ -314,6 +377,11 @@ const shadeSummary = computed(() => {
 })
 
 const canSeeRoute = computed(() => !!result.destination && result.route.length > 1)
+
+const selectedTypeIconUrl = computed(() => {
+  const match = destinationTypes.find(d => d.id === selectedType.value)
+  return match?.icon || parkIcon
+})
 
 const scrollTo = (el) => {
   if (!el) return
@@ -442,20 +510,36 @@ const haversineMeters = (lat1, lng1, lat2, lng2) => {
   return earth * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
+const calcBearing = ([lat1, lng1], [lat2, lng2]) => {
+  const toRad = v => v * Math.PI / 180
+  const dLng = toRad(lng2 - lng1)
+  const y = Math.sin(dLng) * Math.cos(toRad(lat2))
+  const x = Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
+            Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.cos(dLng)
+  return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360
+}
+
 const ensureMap = () => {
   if (map || !mapEl.value) return
-  map = L.map(mapEl.value, { zoomControl: true }).setView([userLocation.lat, userLocation.lng], 14)
+  map = L.map(mapEl.value, { zoomControl: false }).setView([userLocation.lat, userLocation.lng], 15)
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
+  // CartoDB Positron – clean minimal basemap
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
   }).addTo(map)
+
+  L.control.zoom({ position: 'bottomright' }).addTo(map)
 
   userLayer = L.layerGroup().addTo(map)
   destinationLayer = L.layerGroup().addTo(map)
   facilitiesLayer = L.layerGroup().addTo(map)
   routeLayer = L.layerGroup().addTo(map)
 }
+
+const makePinIcon = (html, size, anchor) =>
+  L.divIcon({ html, className: '', iconSize: size, iconAnchor: anchor })
 
 const drawRouteMap = () => {
   if (!map) return
@@ -465,52 +549,84 @@ const drawRouteMap = () => {
   facilitiesLayer.clearLayers()
   routeLayer.clearLayers()
 
-  const bounds = [[userLocation.lat, userLocation.lng]]
+  const bounds = []
 
-  L.circleMarker([userLocation.lat, userLocation.lng], {
-    radius: 8,
-    color: '#0f6f4e',
-    weight: 2,
-    fillColor: '#6fe0b5',
-    fillOpacity: 0.95
+  // ── Route: solid base + animated dashes + direction arrows ─────────
+  if (result.route.length > 1) {
+    const line = result.route.map(([lng, lat]) => [lat, lng])
+
+    // Solid semi-transparent base
+    L.polyline(line, {
+      color: '#1b5e20', weight: 7, opacity: 0.22,
+      lineCap: 'round', lineJoin: 'round'
+    }).addTo(routeLayer)
+
+    // Animated dashed overlay
+    const animLine = L.polyline(line, {
+      color: '#2e7d32', weight: 5, opacity: 0.95,
+      dashArray: '18 13', lineCap: 'round', lineJoin: 'round'
+    }).addTo(routeLayer)
+    setTimeout(() => {
+      const el = animLine.getElement()
+      if (el) el.classList.add('rv-route-animated')
+    }, 80)
+
+    bounds.push(...line)
+  }
+
+  // ── Start marker ─────────────────────────────────────
+  const startHtml =
+    `<div class="rv-pin-start">` +
+    `<svg width="16" height="16" viewBox="0 0 24 24" fill="white">` +
+    `<circle cx="12" cy="4" r="2.5"/>` +
+    `<path d="M10 8.5c-1.1 0-2 .9-2 2v4h2v5h4v-5h2v-4c0-1.1-.9-2-2-2h-4z"/>` +
+    `</svg></div>` +
+    `<div class="rv-pin-label rv-pin-label-start">You</div>`
+  L.marker([userLocation.lat, userLocation.lng], {
+    icon: makePinIcon(startHtml, [44, 54], [22, 48])
   }).addTo(userLayer)
+  bounds.push([userLocation.lat, userLocation.lng])
 
+  // ── Destination marker ─────────────────────────────────
   if (result.destination?.lat != null && result.destination?.lng != null) {
-    L.circleMarker([result.destination.lat, result.destination.lng], {
-      radius: 9,
-      color: '#93461b',
-      weight: 2,
-      fillColor: '#ffc28b',
-      fillOpacity: 0.95
+    const destHtml =
+      `<div class="rv-pin-dest">` +
+      `<img src="${selectedTypeIconUrl.value}" width="22" height="22" style="filter:invert(1)"/>` +
+      `</div>` +
+      `<div class="rv-pin-label rv-pin-label-dest">${selectedTypeLabel.value}</div>`
+    L.marker([result.destination.lat, result.destination.lng], {
+      icon: makePinIcon(destHtml, [56, 62], [28, 56])
     }).addTo(destinationLayer)
     bounds.push([result.destination.lat, result.destination.lng])
   }
 
+  // ── Facility markers ──────────────────────────────────
   result.facilities.forEach((item) => {
     if (item.lat == null || item.lng == null) return
-    L.circleMarker([item.lat, item.lng], {
-      radius: 6,
-      color: '#2f6d95',
-      weight: 2,
-      fillColor: '#b8e0f8',
-      fillOpacity: 0.95
-    }).addTo(facilitiesLayer)
-    bounds.push([item.lat, item.lng])
+    let html = ''
+    if (item.type === 'bench') {
+      html =
+        `<div class="rv-pin-fac rv-pin-bench">` +
+        `<img src="${benchIcon}" width="14" height="14" style="filter:invert(1)"/></div>`
+    } else if (item.type === 'toilet') {
+      html =
+        `<div class="rv-pin-fac rv-pin-toilet">` +
+        `<img src="${toiletIcon}" width="14" height="14" style="filter:invert(1)"/></div>`
+    } else if (item.type === 'drinking_fountain') {
+      html =
+        `<div class="rv-pin-fac rv-pin-fountain">` +
+        `<img src="${fountainIcon}" width="14" height="14" style="filter:invert(1)"/></div>`
+    }
+    if (html) {
+      L.marker([item.lat, item.lng], {
+        icon: makePinIcon(html, [28, 28], [14, 14])
+      }).bindTooltip(item.name, { direction: 'top', offset: [0, -14] })
+        .addTo(facilitiesLayer)
+      bounds.push([item.lat, item.lng])
+    }
   })
 
-  if (result.route.length > 1) {
-    const line = result.route.map(([lng, lat]) => [lat, lng])
-    L.polyline(line, {
-      color: '#0b5f1e',
-      weight: 8,
-      opacity: 0.9,
-      lineCap: 'round',
-      lineJoin: 'round'
-    }).addTo(routeLayer)
-    bounds.push(...line)
-  }
-
-  map.fitBounds(bounds, { padding: [26, 26] })
+  if (bounds.length) map.fitBounds(bounds, { padding: [48, 48] })
   requestAnimationFrame(() => map?.invalidateSize())
 }
 
