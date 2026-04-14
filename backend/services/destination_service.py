@@ -1,22 +1,25 @@
 import requests
 from utils.geo_utils import calculate_distance_meters
 
-OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+OVERPASS_URLS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+]
 
 VALID_DESTINATION_TYPES = {
     "pharmacy": ("amenity", "pharmacy"),
     "grocery": ("shop", "supermarket"),
     "clinic": ("amenity", "clinic"),
     "garden": ("leisure", "park"),
-    "cafe": ("amenity", "cafe")
+    "cafe": ("amenity", "cafe"),
 }
 
 RADIUS_STEPS = {
-    "pharmacy": [1000],
+    "pharmacy": [800, 1000],
     "grocery": [800, 1000],
     "clinic": [800, 1000],
     "garden": [1000],
-    "cafe": [500, 800, 1000]
+    "cafe": [500, 800, 1000],
 }
 
 
@@ -25,8 +28,9 @@ def build_overpass_query(osm_key, osm_value, lat, lng, radius):
     [out:json][timeout:20];
     (
       node["{osm_key}"="{osm_value}"](around:{radius},{lat},{lng});
+      way["{osm_key}"="{osm_value}"](around:{radius},{lat},{lng});
     );
-    out;
+    out center;
     """
 
 
@@ -51,14 +55,19 @@ def search_destinations_from_overpass(destination_type, user_lat, user_lng):
     for radius in radius_list:
         query = build_overpass_query(osm_key, osm_value, user_lat, user_lng, radius)
 
-        try:
-            response = requests.get(
-                OVERPASS_URL,
-                params={"data": query},
-                timeout=20
-            )
-            response.raise_for_status()
-        except requests.RequestException:
+        response = None
+        for overpass_url in OVERPASS_URLS:
+            try:
+                response = requests.get(
+                    overpass_url, params={"data": query}, timeout=20
+                )
+                response.raise_for_status()
+                break
+            except requests.RequestException:
+                response = None
+                continue
+
+        if response is None:
             continue
 
         data = response.json()
@@ -67,22 +76,28 @@ def search_destinations_from_overpass(destination_type, user_lat, user_lng):
         for element in data.get("elements", []):
             tags = element.get("tags", {})
 
-            if "lat" not in element or "lon" not in element:
+            # nodes have lat/lon directly; ways have a "center" object after "out center;"
+            if "lat" in element and "lon" in element:
+                lat = element["lat"]
+                lng = element["lon"]
+            elif "center" in element:
+                lat = element["center"]["lat"]
+                lng = element["center"]["lon"]
+            else:
                 continue
-
-            lat = element["lat"]
-            lng = element["lon"]
 
             distance = calculate_distance_meters(user_lat, user_lng, lat, lng)
             real_name = tags.get("name") or tags.get("brand") or tags.get("operator")
 
-            results.append({
-                "name": real_name,
-                "type": destination_type,
-                "lat": lat,
-                "lng": lng,
-                "distanceMeters": round(distance)
-            })
+            results.append(
+                {
+                    "name": real_name,
+                    "type": destination_type,
+                    "lat": lat,
+                    "lng": lng,
+                    "distanceMeters": round(distance),
+                }
+            )
 
         if results:
             return results
@@ -101,7 +116,7 @@ def get_recommended_destination(destination_type, user_lat, user_lng):
     if not results:
         return {
             "destination": None,
-            "message": f"No nearby {destination_type} found within a 15-minute walk"
+            "message": f"No nearby {destination_type} found within a 15-minute walk",
         }, 200
 
     named = [d for d in results if d["name"]]
@@ -113,6 +128,4 @@ def get_recommended_destination(destination_type, user_lat, user_lng):
     if not recommended["name"]:
         recommended["name"] = fallback_name(destination_type)
 
-    return {
-        "destination": recommended
-    }, 200
+    return {"destination": recommended}, 200
