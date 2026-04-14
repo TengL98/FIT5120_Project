@@ -49,8 +49,8 @@
               loading="lazy"
             />
             <div class="challenge-body">
-              <h3>Heat and shade</h3>
-              <p>Long sunny stretches can feel exhausting.</p>
+              <h3>Too much sun, not enough shade</h3>
+              <p>Walking in direct heat with no shade to step into makes even a short trip tiring.</p>
             </div>
           </article>
           <article class="challenge-card">
@@ -61,8 +61,8 @@
               loading="lazy"
             />
             <div class="challenge-body">
-              <h3>Rest options</h3>
-              <p>Without clear rest stops, short trips feel hard.</p>
+              <h3>Nowhere to sit and take a break</h3>
+              <p>When there are no benches or shelters nearby, it is hard to feel safe going further.</p>
             </div>
           </article>
           <article class="challenge-card">
@@ -73,8 +73,8 @@
               loading="lazy"
             />
             <div class="challenge-body">
-              <h3>Road conditions</h3>
-              <p>Steep slopes and uneven paths reduce confidence.</p>
+              <h3>Uneven paths and steep slopes</h3>
+              <p>Cracked footpaths, steps, or steep hills make it easy to lose balance and feel unsure.</p>
             </div>
           </article>
           <article class="challenge-card">
@@ -85,8 +85,8 @@
               loading="lazy"
             />
             <div class="challenge-body">
-              <h3>Passive support</h3>
-              <p>Streets with moderate foot traffic offer quiet, nearby help.</p>
+              <h3>Walking alone with no one around</h3>
+              <p>Quiet streets with few other people can feel isolating. Knowing others are nearby makes it easier to feel at ease.</p>
             </div>
           </article>
         </div>
