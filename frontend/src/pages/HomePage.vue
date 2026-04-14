@@ -145,16 +145,16 @@
 
             <div class="purpose-list">
               <article class="purpose-list-item">
-              <h3>A calmer start</h3>
-              <p>Feel more prepared before stepping outside.</p>
+              <h3>Plan your walk before you leave</h3>
+              <p>Enter a destination and get a walking route with distance and estimated time — so you know what to expect.</p>
               </article>
               <article class="purpose-list-item">
-              <h3>Reassurance on the way</h3>
-              <p>Have a better sense of what may support you during the walk.</p>
+              <h3>See what's along the way</h3>
+              <p>Nearby benches, toilets, cafes, and pharmacies are shown on your route so you can stop whenever you need to.</p>
               </article>
               <article class="purpose-list-item">
-              <h3>Confidence to go again</h3>
-              <p>When a walk feels easier, everyday outings can feel possible again.</p>
+              <h3>Walk more, worry less</h3>
+              <p>Knowing the route in advance makes it easier to head out — and easier to do it again tomorrow.</p>
               </article>
             </div>
           </div>
