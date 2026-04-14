@@ -134,15 +134,6 @@
           </div>
 
           <div class="purpose-body">
-            <figure class="purpose-image-wrap">
-              <img
-                class="purpose-image"
-                src="https://images.unsplash.com/photo-1750853736853-7eed0c15d4a0?auto=format&fit=crop&q=80&w=1600"
-                alt="Smiling older adult outdoors in natural daylight"
-                loading="lazy"
-              />
-            </figure>
-
             <div class="purpose-list">
               <article class="purpose-list-item">
               <h3>Plan your walk before you leave</h3>
@@ -157,39 +148,61 @@
               <p>Knowing the route in advance makes it easier to head out — and easier to do it again tomorrow.</p>
               </article>
             </div>
+
+            <figure class="purpose-image-wrap">
+              <img
+                class="purpose-image"
+                src="https://images.unsplash.com/photo-1750853736853-7eed0c15d4a0?auto=format&fit=crop&q=80&w=1600"
+                alt="Smiling older adult outdoors in natural daylight"
+                loading="lazy"
+              />
+            </figure>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section steps-section">
-      <div class="shell">
-        <div class="steps-panel">
-          <div class="steps-head">
-            <p class="approach-kicker">HOW IT WORKS</p>
-            <h2>A little support before you step outside</h2>
-            <p>
-              Sometimes it is not the destination that feels difficult - it is knowing what the walk might be
-              like. GreenPath is here to help you feel more ready before you go.
-            </p>
+    <section class="section features-section" ref="featSectionRef">
+      <div class="features-sticky-outer">
+        <div class="features-sticky-inner">
+
+          <!-- Left: image panel -->
+          <div class="features-img-panel" aria-hidden="true">
+            <div
+              v-for="(item, i) in featureItems"
+              :key="i"
+              class="features-img-slot"
+              :class="{ 'is-visible': activeFeature === i }"
+            >
+              <img :src="item.image" :alt="item.imageAlt" loading="lazy" />
+            </div>
           </div>
 
-          <div class="steps-flow">
-            <article v-for="(step, index) in howItWorksSteps" :key="step.title" class="step-row">
-              <div class="step-visual">
-                <img :src="step.image" :alt="`Step ${index + 1} illustration`" loading="lazy" @error="onStepImageError" />
-              </div>
-
-              <div class="step-content">
-                <p class="step-row-label">
-                  Step
-                  <span>{{ index + 1 }}</span>
-                </p>
-                <h3>{{ step.title }}</h3>
-                <p>{{ step.body }}</p>
-              </div>
-            </article>
+          <!-- Right: accordion list -->
+          <div class="features-list-panel">
+            <div class="features-list-header">
+              <p class="approach-kicker">OUR APPROACH</p>
+              <h2>Everything thought through for your comfort and safety</h2>
+            </div>
+            <div class="features-list" role="list">
+              <article
+                v-for="(item, i) in featureItems"
+                :key="i"
+                class="feature-row"
+                :class="{ 'feature-row--active': activeFeature === i, 'feature-row--done': i < activeFeature }"
+                role="listitem"
+              >
+                <div class="feature-row-head">
+                  <span class="feature-num">{{ String(i + 1).padStart(2, '0') }}</span>
+                  <h3>{{ item.title }}</h3>
+                </div>
+                <div class="feature-row-body">
+                  <p>{{ item.body }}</p>
+                </div>
+              </article>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -211,49 +224,64 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted } from 'vue'
-import stepPlaceholder from '../assets/step-placeholder.svg'
-import step1 from '../assets/svg/step1.svg'
-import step2 from '../assets/svg/step2.svg'
-import step3 from '../assets/svg/step3.svg'
-import step4 from '../assets/svg/step4.svg'
-import step5 from '../assets/svg/step5.svg'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import featImg1 from '../assets/pictures/01.jpg'
+import featImg2 from '../assets/pictures/02.jpg'
+import featImg3 from '../assets/pictures/03.jpg'
+import featImg4 from '../assets/pictures/04.jpg'
+import featImg5 from '../assets/pictures/05.jpg'
 
-const howItWorksSteps = [
+// ── Feature accordion (scroll-driven) ───────────────────────────────────────
+const activeFeature = ref(0)
+const featSectionRef = ref(null)
+
+const featureItems = [
   {
-    image: step1,
-    title: 'Think about where you need to go today',
-    body: 'It might be somewhere familiar, like the local grocery store, the pharmacy, the clinic, or a nearby cafe.'
+    image: featImg1,
+    imageAlt: 'Tree-lined shaded walking path on a sunny day',
+    title: 'Routes with natural shade',
+    body: 'GreenPath favours paths with tree canopy or sheltered footpaths, so you are not walking in full sun on warm days.'
   },
   {
-    image: step2,
-    title: 'Take a look at the walk ahead',
-    body: 'Before leaving home, you can see the route more clearly and get a better sense of whether it feels manageable today.'
+    image: featImg2,
+    imageAlt: 'Flat paved walking path through a park',
+    title: 'Gentler gradients underfoot',
+    body: 'Steep hills and uneven ground sap energy and raise the risk of a fall. Routes are chosen to keep the path as flat and smooth as possible.'
   },
   {
-    image: step3,
-    title: 'See what may help along the way',
-    body: 'From places to pause to nearby support, GreenPath helps you feel a little more reassured about the journey.'
+    image: featImg3,
+    imageAlt: 'Park bench and public facilities along a path',
+    title: 'Facilities shown along the way',
+    body: 'Benches, drinking fountains, and public toilets along your route are marked on the map so you always know where the next stop is.'
   },
   {
-    image: step4,
-    title: 'Go when it feels right for you',
-    body: 'Once the walk feels clearer and easier to trust, it can feel easier to begin.'
+    image: featImg4,
+    imageAlt: 'Relaxed pedestrian street with a comfortable number of people',
+    title: 'You are never walking alone',
+    body: 'GreenPath favours routes through areas with a steady, comfortable flow of people. If you ever need assistance, someone is never far away.'
   },
   {
-    image: step5,
-    title: 'Let each walk build a little more confidence',
-    body: 'Over time, these everyday trips can feel less uncertain and more like a comfortable part of your routine.'
+    image: featImg5,
+    imageAlt: 'Older adult walking outdoors with confidence',
+    title: 'Distance still matters — we factor it in',
+    body: 'Within a comfortable walking range, GreenPath recommends the destination that best fits your needs today — so every step feels worth taking.'  
   }
 ]
 
-const onStepImageError = (event) => {
-  const img = event?.target
-  if (!img) return
-  img.onerror = null
-  img.src = stepPlaceholder
+let featScrollHandler = null
+
+const updateActiveFeature = () => {
+  const el = featSectionRef.value
+  if (!el) return
+  const scrollableRange = el.offsetHeight - window.innerHeight
+  if (scrollableRange <= 0) return
+  const scrolled = window.scrollY - el.offsetTop
+  const clamped = Math.max(0, Math.min(scrolled, scrollableRange))
+  const progress = clamped / scrollableRange
+  activeFeature.value = Math.min(Math.floor(progress * featureItems.length), featureItems.length - 1)
 }
 
+// ── Proof counter animation ──────────────────────────────────────────────────
 let proofObserver = null
 let frameIds = []
 
@@ -279,6 +307,11 @@ const animateNumber = (el, endValue, suffix, duration = 1300) => {
 }
 
 onMounted(() => {
+  // Feature scroll listener
+  featScrollHandler = updateActiveFeature
+  window.addEventListener('scroll', featScrollHandler, { passive: true })
+
+  // Proof counter
   const proofSection = document.querySelector('.story-proof-section')
   const numberEls = Array.from(document.querySelectorAll('.proof-number'))
   let hasAnimated = false
@@ -312,6 +345,10 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  if (featScrollHandler) {
+    window.removeEventListener('scroll', featScrollHandler)
+    featScrollHandler = null
+  }
   proofObserver?.disconnect()
   proofObserver = null
   frameIds.forEach((id) => cancelAnimationFrame(id))
