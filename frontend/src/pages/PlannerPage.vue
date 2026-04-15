@@ -222,12 +222,23 @@
               <span class="rv-ldot rv-ldot-route"></span>
               Walking route
             </div>
+            <div class="rv-legend-row">
+              <span class="rv-ldot rv-ldot-shade"></span>
+              Tree canopy shade
+            </div>
           </div>
+          <p class="rv-legend-note">
+            Tree canopy data will be supplied by the backend service. This legend item is kept for the map display.
+          </p>
         </div>
 
       </aside>
 
       <section class="planner-route-map-area">
+        <div class="map-chip map-chip-shade">
+          <span class="map-chip-dot" aria-hidden="true"></span>
+          Shade layer display
+        </div>
         <div v-if="isLoadingPlan" class="planner-map-loading" role="status" aria-live="polite">
           <span class="planner-spinner" aria-hidden="true"></span>
           <p>Loading route map...</p>

@@ -2288,6 +2288,20 @@ h4 {
   font-weight: 700;
   display: inline-flex;
   align-items: center;
+  gap: 0.55rem;
+}
+
+.map-chip-dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 999px;
+  background: rgba(136, 196, 124, 0.9);
+  border: 1px solid rgba(67, 126, 63, 0.5);
+  box-shadow: inset 0 0 0 2px rgba(219, 243, 214, 0.65);
+}
+
+.map-chip-shade {
+  max-width: min(24rem, calc(100% - 2rem));
 }
 
 .planner-map-loading {
@@ -2526,6 +2540,24 @@ h4 {
 }
 
 .rv-ldot-route { background: transparent; width: 28px; height: 5px; border-radius: 2px; border: none; border-top: 4px dashed #2e7d32; }
+.rv-ldot-shade {
+  width: 28px;
+  height: 16px;
+  border-radius: 5px;
+  border: 1px solid rgba(76, 131, 67, 0.34);
+  background: rgba(183, 228, 174, 0.62);
+}
+
+.rv-legend-note {
+  margin: 0;
+  padding: 0.85rem 0.95rem;
+  border-radius: 0.9rem;
+  background: #f2f8ef;
+  border: 1px solid #d7e7d3;
+  color: #4b6350;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
 
 /* ── Map Custom Markers ─────────────────────────────────── */
 
