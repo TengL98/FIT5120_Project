@@ -64,6 +64,38 @@ h4 {
   padding: 5.25rem 0;
 }
 
+/* ── Scroll-enter animations ─────────────────────────────────────────────── */
+.anim-ready {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.6s ease calc(var(--i, 0) * 0.13s),
+    transform 0.6s ease calc(var(--i, 0) * 0.13s);
+}
+
+.anim-pop {
+  opacity: 0;
+  transform: scale(0.94) translateY(20px);
+  transition:
+    opacity 0.55s ease calc(var(--i, 0) * 0.13s),
+    transform 0.55s cubic-bezier(0.34, 1.45, 0.64, 1) calc(var(--i, 0) * 0.13s);
+}
+
+.anim-ready.anim-in,
+.anim-pop.anim-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-ready,
+  .anim-pop {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .eyebrow {
   font-size: 0.8rem;
   letter-spacing: 0.08em;
@@ -341,10 +373,28 @@ h4 {
   margin-top: 0.45rem;
 }
 
+/* ── Parallax inner containers ───────────────────────────────────────────── */
+.parallax-inner {
+  will-change: transform;
+  transition: transform 0.08s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-inner {
+    transition: none;
+    transform: none !important;
+  }
+}
+
 .challenge-brief {
-  background: linear-gradient(180deg, #f8faf7, var(--sand));
+  background: #e8f3eb;
   padding-top: 4.2rem;
   padding-bottom: 2.6rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .challenge-intro {
@@ -410,7 +460,12 @@ h4 {
 .story-proof-section {
   padding-top: 2.6rem;
   padding-bottom: 3.4rem;
-  background: #f1ede5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: #2a1f34;
 }
 
 .story-proof h3 {
@@ -421,7 +476,7 @@ h4 {
   font-weight: 800;
   font-size: clamp(2rem, 5vw, 3.6rem);
   line-height: 1.04;
-  color: #180f20;
+  color: #f5f0fa;
 }
 
 .story-proof > p {
@@ -430,7 +485,7 @@ h4 {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  color: #40364a;
+  color: rgba(245, 240, 250, 0.78);
   font-size: clamp(1rem, 1.8vw, 1.18rem);
 }
 
@@ -438,13 +493,13 @@ h4 {
   margin-top: 1.7rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-left: 2px solid #2a1f34;
+  border-left: 2px solid rgba(255,255,255,0.18);
 }
 
 .proof-item {
   min-height: 270px;
   padding: 1.3rem 1.2rem 1rem;
-  border-right: 2px solid #2a1f34;
+  border-right: 2px solid rgba(255,255,255,0.18);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -458,8 +513,8 @@ h4 {
   margin-left: auto;
   margin-right: auto;
   border-radius: 999px;
-  background: #e8e1d7;
-  color: #2e2538;
+  background: rgba(255,255,255,0.14);
+  color: rgba(245,240,250,0.9);
   font-size: 0.88rem;
   font-weight: 700;
   padding: 0.32rem 0.68rem;
@@ -470,7 +525,7 @@ h4 {
   text-align: center;
   font-family: 'Manrope', sans-serif;
   font-weight: 800;
-  color: #170d1f;
+  color: #f5f0fa;
   font-size: clamp(3rem, 7.2vw, 5.8rem);
   line-height: 0.95;
   letter-spacing: -0.03em;
@@ -484,13 +539,18 @@ h4 {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  color: #31283b;
+  color: rgba(245,240,250,0.75);
   font-size: 1.02rem;
   font-weight: 600;
   line-height: 1.35;
 }
 
 .purpose-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
   background: #eef5ee;
 }
 
@@ -765,7 +825,7 @@ h4 {
 
 .try-planner-hero {
   position: relative;
-  min-height: 72vh;
+  min-height: 100vh;
   background-image: url('https://images.pexels.com/photos/11299600/pexels-photo-11299600.jpeg?auto=compress&cs=tinysrgb&w=2200&h=1400&dpr=1');
   background-size: cover;
   background-position: center 28%;
@@ -784,7 +844,7 @@ h4 {
   position: relative;
   z-index: 1;
   max-width: 860px;
-  min-height: 72vh;
+  min-height: 100vh;
   margin: 0 auto;
   padding: clamp(2.2rem, 6vw, 4.8rem) 1.2rem;
   display: flex;
@@ -1386,7 +1446,7 @@ h4 {
 
   .try-planner-hero,
   .try-planner-content {
-    min-height: 62vh;
+    min-height: 100vh;
   }
 }
 
@@ -1548,12 +1608,12 @@ h4 {
   }
 
   .try-planner-hero {
-    min-height: 74vh;
+    min-height: 100vh;
     background-position: 58% 24%;
   }
 
   .try-planner-content {
-    min-height: 74vh;
+    min-height: 100vh;
     padding: 2.1rem 1rem;
   }
 

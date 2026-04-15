@@ -31,7 +31,7 @@
     </section>
 
     <section class="section challenge-brief">
-      <div class="shell">
+      <div class="shell parallax-inner" data-parallax-id="challenge">
         <div class="section-head challenge-intro">
           <h2>What gets in the way of walking confidence?</h2>
           <p>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="challenge-grid">
-          <article class="challenge-card">
+          <article class="challenge-card anim-pop" style="--i:0">
             <img
               class="challenge-media"
               src="https://images.pexels.com/photos/11299600/pexels-photo-11299600.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&dpr=1"
@@ -53,7 +53,7 @@
               <p>Walking in direct heat with no shade to step into makes even a short trip tiring.</p>
             </div>
           </article>
-          <article class="challenge-card">
+          <article class="challenge-card anim-pop" style="--i:1">
             <img
               class="challenge-media"
               src="https://images.pexels.com/photos/13834915/pexels-photo-13834915.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&dpr=1"
@@ -65,7 +65,7 @@
               <p>When there are no benches or shelters nearby, it is hard to feel safe going further.</p>
             </div>
           </article>
-          <article class="challenge-card">
+          <article class="challenge-card anim-pop" style="--i:2">
             <img
               class="challenge-media"
               src="https://images.pexels.com/photos/17491824/pexels-photo-17491824.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&dpr=1"
@@ -77,7 +77,7 @@
               <p>Cracked footpaths, steps, or steep hills make it easy to lose balance and feel unsure.</p>
             </div>
           </article>
-          <article class="challenge-card">
+          <article class="challenge-card anim-pop" style="--i:3">
             <img
               class="challenge-media"
               src="https://images.pexels.com/photos/24778030/pexels-photo-24778030.jpeg?auto=compress&cs=tinysrgb&w=900&h=520&dpr=1"
@@ -94,25 +94,25 @@
     </section>
 
     <section class="section story-proof-section">
-      <div class="shell">
+      <div class="shell parallax-inner" data-parallax-id="proof">
         <div class="story-proof">
-          <h3>Barriers are real, but staying home should not be the answer.</h3>
-          <p>
+          <h3 class="anim-ready" style="--i:0">Barriers are real, but staying home should not be the answer.</h3>
+          <p class="anim-ready" style="--i:1">
             With the right support, short walks can still feel safe, manageable, and worth it.
           </p>
 
           <div class="proof-grid" aria-label="Key evidence">
-            <article class="proof-item">
+            <article class="proof-item anim-pop" style="--i:0">
               <span class="proof-tag">Activity</span>
               <p class="proof-number" data-target="57" data-suffix="%">0%</p>
               <p class="proof-copy">of older adults are not active enough</p>
             </article>
-            <article class="proof-item">
+            <article class="proof-item anim-pop" style="--i:1">
               <span class="proof-tag">Health</span>
               <p class="proof-number" data-target="19" data-suffix="%">0%</p>
               <p class="proof-copy">lower heart disease risk with regular walking</p>
             </article>
-            <article class="proof-item">
+            <article class="proof-item anim-pop" style="--i:2">
               <span class="proof-tag">Comfort range</span>
               <p class="proof-number" data-target="15" data-suffix=" min">0 min</p>
               <p class="proof-copy">a practical distance for nearby daily needs</p>
@@ -123,7 +123,7 @@
     </section>
 
     <section class="section purpose-section">
-      <div class="shell">
+      <div class="shell parallax-inner" data-parallax-id="purpose">
         <div class="purpose-panel">
           <div class="purpose-head">
             <p class="approach-kicker">OUR APPROACH</p>
@@ -135,21 +135,21 @@
 
           <div class="purpose-body">
             <div class="purpose-list">
-              <article class="purpose-list-item">
+              <article class="purpose-list-item anim-ready" style="--i:0">
               <h3>Plan your walk before you leave</h3>
               <p>Enter a destination and get a walking route with distance and estimated time — so you know what to expect.</p>
               </article>
-              <article class="purpose-list-item">
+              <article class="purpose-list-item anim-ready" style="--i:1">
               <h3>See what's along the way</h3>
               <p>Nearby benches, toilets, cafes, and pharmacies are shown on your route so you can stop whenever you need to.</p>
               </article>
-              <article class="purpose-list-item">
+              <article class="purpose-list-item anim-ready" style="--i:2">
               <h3>Walk more, worry less</h3>
               <p>Knowing the route in advance makes it easier to head out — and easier to do it again tomorrow.</p>
               </article>
             </div>
 
-            <figure class="purpose-image-wrap">
+            <figure class="purpose-image-wrap anim-pop" style="--i:0">
               <img
                 class="purpose-image"
                 src="https://images.unsplash.com/photo-1750853736853-7eed0c15d4a0?auto=format&fit=crop&q=80&w=1600"
@@ -283,6 +283,7 @@ const updateActiveFeature = () => {
 
 // ── Proof counter animation ──────────────────────────────────────────────────
 let proofObserver = null
+let animObserver = null
 let frameIds = []
 
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
@@ -306,7 +307,36 @@ const animateNumber = (el, endValue, suffix, duration = 1300) => {
   frameIds.push(id)
 }
 
+// ── Parallax ──────────────────────────────────────────────────────────────
+let parallaxRafId = null
+let parallaxHandler = null
+
+const updateParallax = () => {
+  const els = document.querySelectorAll('.parallax-inner')
+  const vh = window.innerHeight
+  els.forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    // distance of element centre from viewport centre
+    const centre = rect.top + rect.height / 2
+    const offset = (centre - vh / 2) / vh
+    // subtle shift: max ±22px, opposite to scroll direction
+    const shift = offset * 60
+    el.style.transform = `translateY(${shift}px)`
+  })
+}
+
 onMounted(() => {
+  // Parallax listener
+  parallaxHandler = () => {
+    if (parallaxRafId) return
+    parallaxRafId = requestAnimationFrame(() => {
+      updateParallax()
+      parallaxRafId = null
+    })
+  }
+  window.addEventListener('scroll', parallaxHandler, { passive: true })
+  updateParallax()
+
   // Feature scroll listener
   featScrollHandler = updateActiveFeature
   window.addEventListener('scroll', featScrollHandler, { passive: true })
@@ -320,6 +350,26 @@ onMounted(() => {
     const suffix = el.dataset.suffix || ''
     el.textContent = `0${suffix}`
   })
+
+  // Scroll-enter animations (replay on every re-entry)
+  const animEls = Array.from(document.querySelectorAll('.anim-ready, .anim-pop'))
+  animObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Force reflow so the transition replays from start
+          entry.target.classList.remove('anim-in')
+          requestAnimationFrame(() => {
+            entry.target.classList.add('anim-in')
+          })
+        } else {
+          entry.target.classList.remove('anim-in')
+        }
+      })
+    },
+    { threshold: 0.12 }
+  )
+  animEls.forEach((el) => animObserver.observe(el))
 
   if (!proofSection || numberEls.length === 0) return
 
@@ -345,10 +395,20 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  if (parallaxHandler) {
+    window.removeEventListener('scroll', parallaxHandler)
+    parallaxHandler = null
+  }
+  if (parallaxRafId) {
+    cancelAnimationFrame(parallaxRafId)
+    parallaxRafId = null
+  }
   if (featScrollHandler) {
     window.removeEventListener('scroll', featScrollHandler)
     featScrollHandler = null
   }
+  animObserver?.disconnect()
+  animObserver = null
   proofObserver?.disconnect()
   proofObserver = null
   frameIds.forEach((id) => cancelAnimationFrame(id))
